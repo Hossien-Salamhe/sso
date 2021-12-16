@@ -14,10 +14,7 @@
             "email": "king.galaxy.1994@gmail.com"
         }
     ],
-    "require": {
-        "php": "^8.0",
-        "illuminate/contracts": "^8.0"
-    },
+    "require": {},
     "config": {
         "sort-packages": true
     },
