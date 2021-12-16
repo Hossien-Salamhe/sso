@@ -1,0 +1,31 @@
+{
+    "name": "zaman-tech/sso",
+    "description": "sso authentication &  controller & manager",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ZamanTech\\Sso\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hossein Salamhe",
+            "email": "king.galaxy.1994@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/contracts": "^8.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ZamanTech\\Sso\\Providers\\SsoProvider"
+            ]
+        }
+    }
+}
