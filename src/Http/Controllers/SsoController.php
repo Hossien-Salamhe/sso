@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Config;
 
-class SSOController
+class SsoController
 {
     protected $engenesis_config, $content, $client, $body, $userDetails;
 
