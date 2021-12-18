@@ -17,7 +17,6 @@
     "require": {
         "php": "^8.0",
         "illuminate/contracts": "^8.0",
-        "illuminate/Support": "^8.0",
         "ext-http": "*"
     },
     "config": {
