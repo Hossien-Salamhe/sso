@@ -1,6 +1,6 @@
 <?php
 
-namespace ZamanTech\Sso\Http\Controller;
+namespace ZamanTech\Sso\Http\Controllers;
 
 use Carbon\Carbon;
 use Exception;
