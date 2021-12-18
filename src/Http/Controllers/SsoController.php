@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use http\Exception\RuntimeException;
 use Illuminate\Support\Facades\Config;
 
 class SsoController
@@ -26,7 +27,7 @@ class SsoController
             $this->content = json_decode($response->getBody()->getContents());
             return $this->content;
         } catch (Exception $exception) {
-            dd($exception->getMessage());
+            throw new RuntimeException($exception->getMessage());
         }
 
     }
@@ -38,7 +39,7 @@ class SsoController
             $this->userDetails = json_decode($response->getBody()->getContents());
             return $this->userDetails;
         } catch (Exception $exception) {
-            dd($exception->getMessage());
+            throw new RuntimeException($exception->getMessage());
         }
     }
 
@@ -131,8 +132,100 @@ class SsoController
         return $this->engenesis_config['app_url'] . "/api/sso/oauth/logout/" . $user->session_id . "/" . $user->provider_id;
     }
 
-    public function updateRole()
+    public function updateRole($user, string $user_id, string $app_id, string $user_type = null, string $role = null, string $type = null)
     {
+        try {
+            $response = $this->client->send($this->updateRoleRequest($user, $user_id, $app_id, $user_type, $role, $type));
+            dd($response);
+        } catch (Exception $exception) {
+            throw new RuntimeException($exception->getMessage());
+        }
+    }
 
+    private function updateRoleRequest($user, $user_id, $app_id, $user_type, $role, $type)
+    {
+        return new Request(
+            'POST',
+            $this->getUpdateRoleUrl(),
+            $this->getHeaders($user->engenesis_id_access_token),
+            json_encode([
+                "user_id" => $user_id,
+                "app_id" => $app_id,
+                "user_type" => $user_type,
+                "role" => $role,
+                "type" => $type,
+            ])
+        );
+    }
+
+    private function getUpdateRoleUrl()
+    {
+        return $this->engenesis_config['ENGENESIS_APP_URL'] . "/api/user-update-role";
+    }
+
+
+    public function addNewPayment($user, $sso_id, $address, $last_4_digits, $holder_name, $expiration_date, $app_id, $user_id)
+    {
+        try {
+            $response = $this->client->send($this->addNewPaymentRequest($user, $sso_id, $address, $last_4_digits, $holder_name, $expiration_date, $app_id, $user_id));
+            dd($response);
+        } catch (Exception $exception) {
+            throw new RuntimeException($exception->getMessage());
+        }
+    }
+
+    private function addNewPaymentRequest($user, $sso_id, $address, $last_4_digits, $holder_name, $expiration_date, $app_id, $user_id)
+    {
+        return new Request(
+            'POST',
+            $this->getAddNewPaymentUrl(),
+            $this->getHeaders($user->engenesis_id_access_token),
+            json_encode([
+                "sso_id" => $sso_id,
+                "address" => $address,
+                "last_4_digits" => $last_4_digits,
+                "holder_name" => $holder_name,
+                "expiration_date" => $expiration_date,
+                "app_id" => $app_id,
+                "user_id" => $user_id,
+            ])
+        );
+    }
+
+    private function getAddNewPaymentUrl()
+    {
+        return $this->engenesis_config['ENGENESIS_APP_URL'] . "/api/payment/add-new-payment";
+    }
+
+
+    public function addNewTransaction($user, $sso_id, $descriptions, $amount, $app_id, $user_id)
+    {
+        try {
+            $response = $this->client->send($this->addNewTransactionRequest($user, $sso_id, $descriptions, $amount, $app_id, $user_id));
+            dd($response);
+        } catch (Exception $exception) {
+            throw new RuntimeException($exception->getMessage());
+        }
+    }
+
+    private function addNewTransactionRequest($user, $sso_id, $descriptions, $amount, $app_id, $user_id)
+    {
+        return new Request(
+            'POST',
+            $this->getAddNewTransactionUrl(),
+            $this->getHeaders($user->engenesis_id_access_token),
+            json_encode([
+                "sso_id" => $sso_id,
+                "descriptions" => $descriptions,
+                "amount" => $amount,
+                "app_id" => $app_id,
+                "user_id" => $user_id,
+            ])
+        );
+    }
+
+    private function getAddNewTransactionUrl()
+    {
+        return $this->engenesis_config['ENGENESIS_APP_URL'] . "/api/transaction/add-new-transaction";
     }
 }

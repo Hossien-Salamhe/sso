@@ -11,3 +11,13 @@ class SsoProvider extends ServiceProvider
 
     }
 }
+
+
+
+/*
+composer add
+,
+            "aliases": {
+                "ZamanTech": "ZamanTech\\Sso\\Facade"
+            }
+ */
