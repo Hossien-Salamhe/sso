@@ -26,7 +26,10 @@ class SsoController
             $this->content = json_decode($response->getBody()->getContents());
             return $this->content;
         } catch (Exception $exception) {
-            throw new \RuntimeException($exception->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
         }
 
     }
@@ -38,7 +41,10 @@ class SsoController
             $this->userDetails = json_decode($response->getBody()->getContents());
             return $this->userDetails;
         } catch (Exception $exception) {
-            throw new \RuntimeException($exception->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
         }
     }
 
@@ -135,9 +141,15 @@ class SsoController
     {
         try {
             $response = $this->client->send($this->updateRoleRequest($user, $user_type, $role, $type));
-            dd($response);
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $response
+            ]);
         } catch (Exception $exception) {
-            throw new \RuntimeException($exception->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
         }
     }
 
@@ -159,7 +171,7 @@ class SsoController
 
     private function getUpdateRoleUrl()
     {
-        return $this->engenesis_config['ENGENESIS_APP_URL'] . "/api/user-update-role";
+        return $this->engenesis_config['app_url'] . "/api/user-update-role";
     }
 
 
@@ -167,9 +179,15 @@ class SsoController
     {
         try {
             $response = $this->client->send($this->addNewPaymentRequest($user, $address, $last_4_digits, $holder_name, $expiration_date));
-            dd($response);
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $response
+            ]);
         } catch (Exception $exception) {
-            throw new \RuntimeException($exception->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
         }
     }
 
@@ -192,7 +210,7 @@ class SsoController
 
     private function getAddNewPaymentUrl()
     {
-        return $this->engenesis_config['ENGENESIS_APP_URL'] . "/api/payment/add-new-payment";
+        return $this->engenesis_config['app_url'] . "/api/payment/add-new-payment";
     }
 
 
@@ -200,9 +218,15 @@ class SsoController
     {
         try {
             $response = $this->client->send($this->addNewTransactionRequest($user, $descriptions, $amount));
-            dd($response);
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $response
+            ]);
         } catch (Exception $exception) {
-            throw new \RuntimeException($exception->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
         }
     }
 
@@ -223,6 +247,6 @@ class SsoController
 
     private function getAddNewTransactionUrl()
     {
-        return $this->engenesis_config['ENGENESIS_APP_URL'] . "/api/transaction/add-new-transaction";
+        return $this->engenesis_config['app_url'] . "/api/transaction/add-new-transaction";
     }
 }
