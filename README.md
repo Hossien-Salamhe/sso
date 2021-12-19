@@ -1,7 +1,7 @@
-#<p align="center">sso</p>
-##<p align="center">sso for accounts.engenesis.com</p>
+#sso
+sso for accounts.engenesis.com
 
-
+###
 [![PHP Version Require](http://poser.pugx.org/zaman-tech/sso/require/php)](https://packagist.org/packages/zaman-tech/sso)
 [![Total Downloads](http://poser.pugx.org/zaman-tech/sso/downloads)](https://packagist.org/packages/zaman-tech/sso)
 [![License](http://poser.pugx.org/zaman-tech/sso/license)](https://packagist.org/packages/zaman-tech/sso)
