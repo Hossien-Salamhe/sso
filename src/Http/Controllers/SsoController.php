@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
-use http\Exception\RuntimeException;
 use Illuminate\Support\Facades\Config;
 
 class SsoController
@@ -27,7 +26,7 @@ class SsoController
             $this->content = json_decode($response->getBody()->getContents());
             return $this->content;
         } catch (Exception $exception) {
-            throw new RuntimeException($exception->getMessage());
+            throw new \RuntimeException($exception->getMessage());
         }
 
     }
@@ -39,7 +38,7 @@ class SsoController
             $this->userDetails = json_decode($response->getBody()->getContents());
             return $this->userDetails;
         } catch (Exception $exception) {
-            throw new RuntimeException($exception->getMessage());
+            throw new \RuntimeException($exception->getMessage());
         }
     }
 
@@ -138,7 +137,7 @@ class SsoController
             $response = $this->client->send($this->updateRoleRequest($user, $user_type, $role, $type));
             dd($response);
         } catch (Exception $exception) {
-            throw new RuntimeException($exception->getMessage());
+            throw new \RuntimeException($exception->getMessage());
         }
     }
 
@@ -170,7 +169,7 @@ class SsoController
             $response = $this->client->send($this->addNewPaymentRequest($user, $address, $last_4_digits, $holder_name, $expiration_date));
             dd($response);
         } catch (Exception $exception) {
-            throw new RuntimeException($exception->getMessage());
+            throw new \RuntimeException($exception->getMessage());
         }
     }
 
@@ -203,7 +202,7 @@ class SsoController
             $response = $this->client->send($this->addNewTransactionRequest($user, $descriptions, $amount));
             dd($response);
         } catch (Exception $exception) {
-            throw new RuntimeException($exception->getMessage());
+            throw new \RuntimeException($exception->getMessage());
         }
     }
 
