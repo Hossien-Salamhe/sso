@@ -132,25 +132,25 @@ class SsoController
         return $this->engenesis_config['app_url'] . "/api/sso/oauth/logout/" . $user->session_id . "/" . $user->provider_id;
     }
 
-    public function updateRole($user, string $user_id, string $app_id, string $user_type = null, string $role = null, string $type = null)
+    public function updateRole($user, string $user_type = null, string $role = null, string $type = null)
     {
         try {
-            $response = $this->client->send($this->updateRoleRequest($user, $user_id, $app_id, $user_type, $role, $type));
+            $response = $this->client->send($this->updateRoleRequest($user, $user_type, $role, $type));
             dd($response);
         } catch (Exception $exception) {
             throw new RuntimeException($exception->getMessage());
         }
     }
 
-    private function updateRoleRequest($user, $user_id, $app_id, $user_type, $role, $type)
+    private function updateRoleRequest($user, $user_type, $role, $type)
     {
         return new Request(
             'POST',
             $this->getUpdateRoleUrl(),
             $this->getHeaders($user->engenesis_id_access_token),
             json_encode([
-                "user_id" => $user_id,
-                "app_id" => $app_id,
+                "sso_id" => $user->provider_id,
+                "app_id" => $this->engenesis_config['app_id'],
                 "user_type" => $user_type,
                 "role" => $role,
                 "type" => $type,
@@ -164,30 +164,29 @@ class SsoController
     }
 
 
-    public function addNewPayment($user, $sso_id, $address, $last_4_digits, $holder_name, $expiration_date, $app_id, $user_id)
+    public function addNewPayment($user, $address, $last_4_digits, $holder_name, $expiration_date)
     {
         try {
-            $response = $this->client->send($this->addNewPaymentRequest($user, $sso_id, $address, $last_4_digits, $holder_name, $expiration_date, $app_id, $user_id));
+            $response = $this->client->send($this->addNewPaymentRequest($user, $address, $last_4_digits, $holder_name, $expiration_date));
             dd($response);
         } catch (Exception $exception) {
             throw new RuntimeException($exception->getMessage());
         }
     }
 
-    private function addNewPaymentRequest($user, $sso_id, $address, $last_4_digits, $holder_name, $expiration_date, $app_id, $user_id)
+    private function addNewPaymentRequest($user, $address, $last_4_digits, $holder_name, $expiration_date)
     {
         return new Request(
             'POST',
             $this->getAddNewPaymentUrl(),
             $this->getHeaders($user->engenesis_id_access_token),
             json_encode([
-                "sso_id" => $sso_id,
+                "sso_id" => $user->provider_id,
+                "app_id" => $this->engenesis_config['app_id'],
                 "address" => $address,
                 "last_4_digits" => $last_4_digits,
                 "holder_name" => $holder_name,
                 "expiration_date" => $expiration_date,
-                "app_id" => $app_id,
-                "user_id" => $user_id,
             ])
         );
     }
@@ -198,28 +197,27 @@ class SsoController
     }
 
 
-    public function addNewTransaction($user, $sso_id, $descriptions, $amount, $app_id, $user_id)
+    public function addNewTransaction($user, $descriptions, $amount)
     {
         try {
-            $response = $this->client->send($this->addNewTransactionRequest($user, $sso_id, $descriptions, $amount, $app_id, $user_id));
+            $response = $this->client->send($this->addNewTransactionRequest($user, $descriptions, $amount));
             dd($response);
         } catch (Exception $exception) {
             throw new RuntimeException($exception->getMessage());
         }
     }
 
-    private function addNewTransactionRequest($user, $sso_id, $descriptions, $amount, $app_id, $user_id)
+    private function addNewTransactionRequest($user, $descriptions, $amount)
     {
         return new Request(
             'POST',
             $this->getAddNewTransactionUrl(),
             $this->getHeaders($user->engenesis_id_access_token),
             json_encode([
-                "sso_id" => $sso_id,
+                "sso_id" => $user->provider_id,
+                "app_id" => $this->engenesis_config['app_id'],
                 "descriptions" => $descriptions,
                 "amount" => $amount,
-                "app_id" => $app_id,
-                "user_id" => $user_id,
             ])
         );
     }
