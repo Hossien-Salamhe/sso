@@ -24,6 +24,12 @@ add this lines to your .env file:
     ENGENESIS_APP_URL=app_url
 ```
 
+publish config package:
+
+```ini
+    php artisan vendor:publish --tag=zaman-tech-config
+```
+
 ## Use:
 
 ```injectablephp
