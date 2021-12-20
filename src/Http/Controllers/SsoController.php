@@ -14,7 +14,7 @@ class SsoController
 
     public function __construct($token = null)
     {
-        $this->engenesis_config = Config::get("services.engenesis");
+        $this->engenesis_config = Config::get("zaman-tech.engenesis");
         $this->client = new Client();
         $this->setBody($token);
     }
