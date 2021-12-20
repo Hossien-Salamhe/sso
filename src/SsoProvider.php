@@ -1,6 +1,6 @@
 <?php
 
-namespace ZamanTech\Sso\Providers;
+namespace ZamanTech\Sso;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -10,7 +10,7 @@ class SsoProvider extends ServiceProvider
     {
         $this->publishes([
             // Can't locate path: </var/www/html/vendor/zaman-tech/sso/src/Providers/../config/zaman-tech.php>
-            __DIR__.'/../../../config/zaman-tech.php' => config_path('zaman-tech.php')
+            __DIR__.'/config/zaman-tech.php' => config_path('zaman-tech.php')
         ], 'zaman-tech-config');
     }
 }

@@ -24,7 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ZamanTech\\Sso\\Providers\\SsoProvider"
+                "ZamanTech\\Sso\\SsoProvider"
             ]
         }
     }
