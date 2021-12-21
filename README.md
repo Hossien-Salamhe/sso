@@ -26,7 +26,7 @@ add this lines to your .env file:
 
 publish config package:
 
-```ini
+```injectablephp
     php artisan vendor:publish --tag=zaman-tech-config
 ```
 
