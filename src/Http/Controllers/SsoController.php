@@ -125,7 +125,7 @@ class SsoController
 
     private function LogoutRequest($user)
     {
-        new Request(
+        return new Request(
             'GET',
             $this->getLogoutUrl($user),
             $this->getHeaders()
