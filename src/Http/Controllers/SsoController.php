@@ -24,6 +24,9 @@ class SsoController
         try {
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
+            if ($this->content->status == 'error') {
+                throw new \RuntimeException($this->content->msg);
+            }
             return $this->content;
         } catch (Exception $exception) {
             return response()->json([
@@ -39,6 +42,9 @@ class SsoController
         try {
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
+            if(isset($this->userDetails->meta) && $this->userDetails->meta->error){
+                throw new \RuntimeException($this->userDetails->meta->msg);
+            }
             return $this->userDetails;
         } catch (Exception $exception) {
             return response()->json([
