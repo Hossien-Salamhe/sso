@@ -24,10 +24,10 @@ class SsoController
         try {
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
-            if ($this->content['status'] == 'error') {
+            if ($this->content->status == 'error') {
                 return response()->json([
                     'status' => 'error',
-                    'msg' => $this->content['error']
+                    'msg' => $this->content->error
                 ]);
             }
             return $this->content;
