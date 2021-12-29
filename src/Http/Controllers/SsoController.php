@@ -65,6 +65,7 @@ class SsoController
             'provider_id' => $this->userDetails->provider_id,
             'session_id' => $this->content->sessionId, // $session_id,
             'country_code' => $this->userDetails->country->code,
+            'country' => $this->userDetails->country->code,
             'engenesis_id_access_token' => $this->content->accessToken,
             'engenesis_id_refresh_token' => $this->content->refreshToken,
             'engenesis_id_access_token_expires_at' => Carbon::parse($this->content->expiresAt),
