@@ -135,7 +135,7 @@ class SsoController
         return new Request(
             'GET',
             $this->getLogoutUrl($user),
-            $this->getHeaders($this->content->accessToken)
+            $this->getHeaders($user->accessToken)
         );
     }
 
