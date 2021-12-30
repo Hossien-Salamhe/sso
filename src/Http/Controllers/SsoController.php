@@ -135,7 +135,7 @@ class SsoController
         return new Request(
             'GET',
             $this->getLogoutUrl($user),
-            $this->getHeaders($user->accessToken)
+            $this->getHeaders($user->engenesis_id_access_token)
         );
     }
 
