@@ -24,6 +24,9 @@ class SsoController
         try {
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
+            if(isset($this->content->meta) && $this->content->meta->error){
+                throw new \RuntimeException($this->content->meta->msg);
+            }
             if (isset($this->content) && $this->content->status == 'error') {
                 throw new \RuntimeException($this->content->msg);
             }
