@@ -151,9 +151,10 @@ class SsoController
     {
         try {
             $response = $this->client->send($this->updateRoleRequest($user, $user_type, $role, $type));
+            $content= json_decode($response->getBody()->getContents());
             return response()->json([
                 'status' => 'ok',
-                'msg' => $response
+                'msg' => $content
             ]);
         } catch (Exception $exception) {
             return response()->json([
@@ -227,6 +228,7 @@ class SsoController
     public function addNewTransaction($user, $descriptions, $amount)
     {
         try {
+            // TODO::: process response and get stream to return string msg not request msd
             $response = $this->client->send($this->addNewTransactionRequest($user, $descriptions, $amount));
             return response()->json([
                 'status' => 'ok',
