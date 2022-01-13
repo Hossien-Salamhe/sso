@@ -14,7 +14,7 @@ class SsoProvider extends ServiceProvider
         ], 'zaman-tech-config');
 
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+//        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 }
 
