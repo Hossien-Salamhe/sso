@@ -24,7 +24,7 @@ class SsoController
         try {
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
-            if(isset($this->content->meta) && $this->content->meta->error){
+            if (isset($this->content->meta) && $this->content->meta->error) {
                 throw new \RuntimeException($this->content->meta->msg);
             }
             if (isset($this->content) && $this->content->status == 'error') {
@@ -45,7 +45,7 @@ class SsoController
         try {
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
-            if(isset($this->userDetails->meta) && $this->userDetails->meta->error){
+            if (isset($this->userDetails->meta) && $this->userDetails->meta->error) {
                 throw new \RuntimeException($this->userDetails->meta->msg);
             }
             return $this->userDetails;
@@ -151,7 +151,7 @@ class SsoController
     {
         try {
             $response = $this->client->send($this->updateRoleRequest($user, $user_type, $role, $type));
-            $content= json_decode($response->getBody()->getContents());
+            $content = json_decode($response->getBody()->getContents());
             return response()->json([
                 'status' => 'ok',
                 'msg' => $content
@@ -190,9 +190,10 @@ class SsoController
     {
         try {
             $response = $this->client->send($this->addNewPaymentRequest($user, $address, $last_4_digits, $holder_name, $expiration_date));
+            $content = json_decode($response->getBody()->getContents());
             return response()->json([
                 'status' => 'ok',
-                'msg' => $response
+                'msg' => $content
             ]);
         } catch (Exception $exception) {
             return response()->json([
