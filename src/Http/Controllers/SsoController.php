@@ -226,14 +226,15 @@ class SsoController
     }
 
 
-    public function addNewTransaction($user, $descriptions, $amount)
+    public function addNewTransaction($user, $descriptions, $amount, $paid_at)
     {
         try {
             // TODO::: process response and get stream to return string msg not request msd
-            $response = $this->client->send($this->addNewTransactionRequest($user, $descriptions, $amount));
+            $response = $this->client->send($this->addNewTransactionRequest($user, $descriptions, $amount, $paid_at));
+            $content = json_decode($response->getBody()->getContents());
             return response()->json([
                 'status' => 'ok',
-                'msg' => $response
+                'msg' => $content
             ]);
         } catch (Exception $exception) {
             return response()->json([
@@ -243,7 +244,7 @@ class SsoController
         }
     }
 
-    private function addNewTransactionRequest($user, $descriptions, $amount)
+    private function addNewTransactionRequest($user, $descriptions, $amount, $paid_at)
     {
         return new Request(
             'POST',
@@ -254,6 +255,7 @@ class SsoController
                 "app_id" => $this->engenesis_config['app_id'],
                 "descriptions" => $descriptions,
                 "amount" => $amount,
+                "paid_at" => $paid_at,
             ])
         );
     }
