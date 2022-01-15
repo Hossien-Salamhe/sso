@@ -48,8 +48,11 @@ class SsoController
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
             Log::debug(env('APP_URL'), ['getUserDetails userDetails sso package' => $this->userDetails]);
-            if ((isset($this->userDetails->meta) && $this->userDetails->meta->error) || $this->userDetails->status = 'error') {
-                throw new \RuntimeException(isset($this->userDetails->meta)?$this->userDetails->meta->msg:$this->userDetails->msg);
+            if ((isset($this->userDetails->meta) && $this->userDetails->meta->error)) {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => $this->userDetails->meta->error,
+                ]);
             }
             return $this->userDetails;
         } catch (Exception $exception) {
