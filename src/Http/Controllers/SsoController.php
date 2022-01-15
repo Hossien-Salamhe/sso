@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class SsoController
 {
@@ -24,6 +25,7 @@ class SsoController
         try {
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
+            Log::debug(env('APP_URL'), ['getContent content sso package' => $this->content]);
             if (isset($this->content->meta) && $this->content->meta->error) {
                 throw new \RuntimeException($this->content->meta->msg);
             }
@@ -45,7 +47,8 @@ class SsoController
         try {
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
-            if (isset($this->userDetails->meta) && $this->userDetails->meta->error) {
+            Log::debug(env('APP_URL'), ['getUserDetails userDetails sso package' => $this->userDetails]);
+            if ((isset($this->userDetails->meta) && $this->userDetails->meta->error) || $this->userDetails->status = 'error') {
                 throw new \RuntimeException($this->userDetails->meta->msg);
             }
             return $this->userDetails;
@@ -79,6 +82,7 @@ class SsoController
     {
         $response = $this->client->send($this->LogoutRequest($user));
         $userDetails = json_decode($response->getBody()->getContents());
+        Log::debug(env('APP_URL'), ['logout $userDetails sso package' => $userDetails]);
         return $userDetails;
     }
 
