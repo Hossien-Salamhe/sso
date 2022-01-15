@@ -208,10 +208,11 @@ class SsoController
         return new Request(
             'POST',
             $this->getAddNewPaymentUrl(),
-            $this->getHeaders($user->engenesis_id_access_token),
+            $this->getHeaders(),
             json_encode([
                 "sso_id" => $user->provider_id,
                 "app_id" => $this->engenesis_config['app_id'],
+                "app_secret" => $this->engenesis_config['app_secret'],
                 "address" => $address,
                 "last_4_digits" => $last_4_digits,
                 "holder_name" => $holder_name,
@@ -249,10 +250,11 @@ class SsoController
         return new Request(
             'POST',
             $this->getAddNewTransactionUrl(),
-            $this->getHeaders($user->engenesis_id_access_token),
+            $this->getHeaders(),
             json_encode([
                 "sso_id" => $user->provider_id,
                 "app_id" => $this->engenesis_config['app_id'],
+                "app_secret" => $this->engenesis_config['app_secret'],
                 "descriptions" => $descriptions,
                 "amount" => $amount,
                 "paid_at" => $paid_at,
