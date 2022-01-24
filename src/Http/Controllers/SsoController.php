@@ -13,9 +13,9 @@ class SsoController
 {
     protected $engenesis_config, $content, $client, $body, $userDetails;
 
-    public function __construct($token = null)
+    public function __construct($config_name = 'engenesis', $token = null)
     {
-        $this->engenesis_config = Config::get("zaman-tech.engenesis");
+        $this->engenesis_config = Config::get("zaman-tech." . $config_name);
         $this->client = new Client();
         $this->setBody($token);
     }
@@ -25,7 +25,6 @@ class SsoController
         try {
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
-            Log::debug(env('APP_URL'), ['getContent content sso package' => $this->content]);
             if (isset($this->content->meta) && $this->content->meta->error) {
                 throw new \RuntimeException($this->content->meta->msg);
             }
@@ -47,7 +46,6 @@ class SsoController
         try {
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
-            Log::debug(env('APP_URL'), ['getUserDetails userDetails sso package' => $this->userDetails]);
             if ((isset($this->userDetails->meta) && $this->userDetails->meta->error)) {
                 return response()->json([
                     'status' => 'error',
@@ -84,7 +82,6 @@ class SsoController
     {
         $response = $this->client->send($this->LogoutRequest($user));
         $userDetails = json_decode($response->getBody()->getContents());
-        Log::debug(env('APP_URL'), ['logout $userDetails sso package' => $userDetails]);
         return $userDetails;
     }
 
