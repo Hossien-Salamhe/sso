@@ -16,7 +16,6 @@ class SsoController
     public function __construct($config_name = 'engenesis', $token = null)
     {
         $this->engenesis_config = Config::get("zaman-tech." . $config_name);
-        Log::debug("SsoController 19 => ", ['this->engenesis_config' => $this->engenesis_config]);
         $this->client = new Client();
         $this->setBody($token);
     }
@@ -32,7 +31,6 @@ class SsoController
             if (isset($this->content) && $this->content->status == 'error') {
                 throw new \RuntimeException($this->content->msg);
             }
-            Log::debug('SsoController 34 => ', ['this->content' => $this->content]);
             return $this->content;
         } catch (Exception $exception) {
             return response()->json([
@@ -48,14 +46,12 @@ class SsoController
         try {
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
-            Log::debug("SsoController 49 => ", ['$response' => $response, 'this->userDetails' => $this->userDetails, 'response->getBody()' => $response->getBody(), 'response->getBody()->getContents()' => $response->getBody()->getContents()]);
             if ((isset($this->userDetails->meta) && $this->userDetails->meta->error)) {
                 return response()->json([
                     'status' => 'error',
                     'msg' => $this->userDetails->meta->error,
                 ]);
             }
-            Log::debug("SsoController 49 => ", ['this->userDetails' => $this->userDetails]);
             return $this->userDetails;
         } catch (Exception $exception) {
             return response()->json([
@@ -67,7 +63,6 @@ class SsoController
 
     public function getUserInfo()
     {
-        Log::debug('SsoController 67 => ', ['$this->userDetails' => $this->userDetails]);
         return [
             'first_name' => $this->userDetails->first_name,
             'last_name' => $this->userDetails->last_name,
@@ -133,7 +128,6 @@ class SsoController
 
     private function UserDetailsRequest()
     {
-        Log::debug(" 136 =>", ['this->body' => $this->body]);
         return new Request(
             'GET',
             $this->getUserDetailsUrl(),
