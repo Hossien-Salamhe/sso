@@ -46,6 +46,7 @@ class SsoController
         try {
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
+            Log::debug("SsoController 49 => ", ['$response' => $response, 'this->userDetails' => $this->userDetails, 'response->getBody()'=> $response->getBody(), 'response->getBody()->getContents()' => $response->getBody()->getContents()]);
             if ((isset($this->userDetails->meta) && $this->userDetails->meta->error)) {
                 return response()->json([
                     'status' => 'error',
