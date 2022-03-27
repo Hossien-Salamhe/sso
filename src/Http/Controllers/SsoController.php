@@ -80,9 +80,12 @@ class SsoController
 
     public function logout($user)
     {
-        $response = $this->client->send($this->LogoutRequest($user));
-        $userDetails = json_decode($response->getBody()->getContents());
-        return $userDetails;
+        if ($user) {
+            $response = $this->client->send($this->LogoutRequest($user));
+            $userDetails = json_decode($response->getBody()->getContents());
+            return $userDetails;
+        }
+        throw new \RuntimeException("User not found!");
     }
 
     private function getVerifyUrl()
