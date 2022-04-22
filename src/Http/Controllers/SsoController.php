@@ -26,16 +26,16 @@ class SsoController
             $response = $this->client->send($this->ContentRequest());
             $this->content = json_decode($response->getBody()->getContents());
             if (isset($this->content->meta) && $this->content->meta->error) {
-                throw new \RuntimeException($this->content->meta->msg);
+                return redirect()->away($this->content->redirect_to);
             }
             if (isset($this->content) && $this->content->status == 'error') {
-                throw new \RuntimeException($this->content->msg);
+                return redirect()->away($this->content->redirect_to);
             }
             return $this->content;
         } catch (Exception $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg' => $exception->getMessage()
+                'msg' => $exception->getMessage() . " === 41 === "
             ]);
         }
 
@@ -47,17 +47,13 @@ class SsoController
             $response = $this->client->send($this->UserDetailsRequest());
             $this->userDetails = json_decode($response->getBody()->getContents());
             if ((isset($this->userDetails->meta) && $this->userDetails->meta->error)) {
-                return response()->json([
-                    'status' => 'error',
-                    'msg' => $this->userDetails->meta->error,
-                ]);
+                return redirect()->away($this->content->redirect_to);
             }
             return $this->userDetails;
         } catch (Exception $exception) {
-            return response()->json([
-                'status' => 'error',
-                'msg' => $exception->getMessage()
-            ]);
+            if (isset($this->content) && $this->content->status == 'error') {
+                return redirect()->away($this->content->redirect_to);
+            }
         }
     }
 
@@ -85,7 +81,7 @@ class SsoController
             $userDetails = json_decode($response->getBody()->getContents());
             return $userDetails;
         }
-        throw new \RuntimeException("User not found!");
+        throw new \RuntimeException("User not found!" . " === 92 === ");
     }
 
     private function getVerifyUrl()
@@ -134,9 +130,10 @@ class SsoController
         return new Request(
             'GET',
             $this->getUserDetailsUrl(),
-            $this->getHeaders($this->content->accessToken),
+            $this->getHeaders($this->content->accessToken ?? "123"),
             json_encode($this->body)
         );
+
     }
 
     private function LogoutRequest($user)
@@ -165,7 +162,7 @@ class SsoController
         } catch (Exception $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg' => $exception->getMessage()
+                'msg' => $exception->getMessage() . " === 172 === "
             ]);
         }
     }
@@ -204,7 +201,7 @@ class SsoController
         } catch (Exception $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg' => $exception->getMessage()
+                'msg' => $exception->getMessage() . " === 211 === "
             ]);
         }
     }
@@ -246,7 +243,7 @@ class SsoController
         } catch (Exception $exception) {
             return response()->json([
                 'status' => 'error',
-                'msg' => $exception->getMessage()
+                'msg' => $exception->getMessage() . " === 253 === "
             ]);
         }
     }
