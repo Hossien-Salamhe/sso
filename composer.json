@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "illuminate/contracts": "^9.0"
+        "illuminate/contracts": "^10.0"
     },
     "config": {
         "sort-packages": true
